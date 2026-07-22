@@ -36,7 +36,7 @@
 | Тема | Статус | Задача |
 |---|---|---|
 | 1.1 Value types vs reference types | ✅ | `Basics/Block1/ValueVsReference.cs` |
-| 1.2 `struct` vs `class` — когда что | ⬜ | |
+| 1.2 `struct` vs `class` — когда что | ✅ | `Basics/Block1/StructVsClass.cs` |
 | 1.3 Stack vs Heap | ⬜ | |
 | 1.4 Boxing/unboxing | ⬜ | |
 | 1.5 `null`, `Nullable<T>`, `?.`, `??`, `??=`, NRT | ⬜ | |
