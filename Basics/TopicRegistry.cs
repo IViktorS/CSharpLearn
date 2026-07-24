@@ -10,5 +10,6 @@ public static class TopicRegistry
         // Блок 1: Основы C#
         ("1.1", "Value types vs reference types", ValueVsReference.Run),
         ("1.2", "struct vs class — когда что выбирать", StructVsClass.Run),
+        ("1.3", "Stack vs Heap", StackVsHeap.Run),
     ];
 }
