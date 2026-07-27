@@ -12,5 +12,6 @@ public static class TopicRegistry
         ("1.2", "struct vs class — когда что выбирать", StructVsClass.Run),
         ("1.3", "Stack vs Heap", StackVsHeap.Run),
         ("1.4", "Boxing / Unboxing", BoxingUnboxing.Run),
+        ("1.5", "null, Nullable<T>, ?., ??, ??=, NRT", NullHandling.Run),
     ];
 }

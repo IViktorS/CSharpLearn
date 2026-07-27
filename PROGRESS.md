@@ -42,10 +42,20 @@
 | 1.2 `struct` vs `class` — когда что | ✅ | `Basics/Block1/StructVsClass.cs` |
 | 1.3 Stack vs Heap | ✅ | `Basics/Block1/StackVsHeap.cs` |
 | 1.4 Boxing/unboxing | ✅ | `Basics/Block1/BoxingUnboxing.cs` |
-| 1.5 `null`, `Nullable<T>`, `?.`, `??`, `??=`, NRT | ⬜ | |
-| 1.6 Модификаторы доступа (все 6) | ⬜ | |
-| 1.7 `readonly` vs `const` | ⬜ | |
-| 1.8 `static` (класс/метод/конструктор/поле) | ⬜ | |
+| 1.5 `null`, `Nullable<T>`, `?.`, `??`, `??=`, NRT | 🟡 | `Basics/Block1/NullHandling.cs` |
+| 1.6 Свойства (auto, `get`/`set`, `init`, вычисляемые, expression-bodied) | ⬜ | |
+| 1.7 `enum` (+ `[Flags]`) | ⬜ | |
+| 1.8 Модификаторы доступа (все 6) | ⬜ | |
+| 1.9 `readonly` vs `const` | ⬜ | |
+| 1.10 `static` (класс/метод/конструктор/поле) | ⬜ | |
+| 1.11 `out` / `ref` / `in` параметры | ⬜ | |
+| 1.12 `StringBuilder` vs `string` (конкатенация в цикле) | ⬜ | |
+| 1.13 Кортежи (tuples) и деконструкция | ⬜ | |
+| 1.14 Pattern matching (`switch`-выражения, `is`-паттерны, property patterns) | ⬜ | |
+| 1.15 Рекурсия (базовый случай, стек вызовов, StackOverflow) | ⬜ | |
+| 1.16 Методы расширения (extension methods) | ⬜ | |
+| 1.17 Дженерики: обобщённые классы и методы | ⬜ | |
+| 1.18 Ограничения дженериков (`where T : ...`) | ⬜ | |
 
 ## Блок 2: ООП
 | Тема | Статус | Задача |
@@ -55,23 +65,27 @@
 | 2.3 `virtual`/`override`/`new` (hiding) | ⬜ | |
 | 2.4 `sealed` | ⬜ | |
 | 2.5 Композиция vs наследование | ⬜ | |
+| 2.6 Переопределение `Equals`/`GetHashCode` (`IEquatable<T>`) | ⬜ | |
+| 2.7 `record` / `record struct` (value equality, `with`-выражения) | ⬜ | |
 
 ## Блок 3: Коллекции и данные
 | Тема | Статус | Задача |
 |---|---|---|
 | 3.1 List/Dictionary/HashSet/Queue/Stack — сложность | ⬜ | |
 | 3.2 IEnumerable vs ICollection vs IList | ⬜ | |
-| 3.3 LINQ — deferred execution | ⬜ | |
-| 3.4 LINQ — базовые операторы | ⬜ | |
-| 3.5 IEnumerable&lt;T&gt; vs IQueryable&lt;T&gt; | ⬜ | |
+| 3.3 `IComparable`/`IComparer` (сортировка, `OrderBy`, `List.Sort`) | ⬜ | |
+| 3.4 LINQ — deferred execution | ⬜ | |
+| 3.5 `yield return` (итераторы, ленивая генерация) | ⬜ | |
+| 3.6 LINQ — базовые операторы | ⬜ | |
+| 3.7 IEnumerable&lt;T&gt; vs IQueryable&lt;T&gt; | ⬜ | |
 
 ## Блок 4: Делегаты и события
 | Тема | Статус | Задача |
 |---|---|---|
 | 4.1 Делегат как типобезопасный указатель | ⬜ | |
 | 4.2 Action/Func/Predicate | ⬜ | |
-| 4.3 `event` vs публичное поле-делегат | ⬜ | |
-| 4.4 Лямбды и замыкания, захват переменной цикла | ⬜ | |
+| 4.3 Лямбды и замыкания, захват переменной цикла | ⬜ | |
+| 4.4 `event` vs публичное поле-делегат | ⬜ | |
 
 ## Блок 5: Исключения
 | Тема | Статус | Задача |
@@ -87,24 +101,34 @@
 | 6.1 async/await — не многопоточность | ⬜ | |
 | 6.2 Task vs Task&lt;T&gt; vs async void | ⬜ | |
 | 6.3 Что под капотом `await` | ⬜ | |
-| 6.4 Deadlock: `.Result`/`.Wait()` на UI | ⬜ | |
+| 6.4 `Task.WhenAll`/`WhenAny` (композиция задач) | ⬜ | |
+| 6.5 `CancellationToken` (кооперативная отмена) | ⬜ | |
+| 6.6 Deadlock: `.Result`/`.Wait()` на UI | ⬜ | |
 
-## Блок 7: WPF — архитектура
+## Блок 7: WPF — основы и вёрстка
 | Тема | Статус | Задача |
 |---|---|---|
-| 7.1 Dependency Property | ⬜ | |
-| 7.2 Data Binding — режимы, триггеры | ⬜ | |
-| 7.3 DataContext — наследование по дереву | ⬜ | |
-| 7.4 INotifyPropertyChanged | ⬜ | |
-| 7.5 ICommand — Execute/CanExecute | ⬜ | |
+| 7.1 Панели компоновки (`Grid`, `StackPanel`, `DockPanel`, `Canvas`) | ⬜ | |
+| 7.2 StaticResource vs DynamicResource | ⬜ | |
+| 7.3 Routed Events — Bubbling vs Tunneling | ⬜ | |
+| 7.4 Dispatcher и UI-поток | ⬜ | |
+| 7.5 Data Binding — режимы, триггеры | ⬜ | |
+| 7.6 DataContext — наследование по дереву | ⬜ | |
+| 7.7 INotifyPropertyChanged | ⬜ | |
+| 7.8 `ObservableCollection<T>` | ⬜ | |
+| 7.9 ICommand — Execute/CanExecute | ⬜ | |
+| 7.10 MVVM целиком + `RelayCommand` | ⬜ | |
 
-## Блок 8: WPF — визуал и структура
+## Блок 8: WPF — продвинутое (шаблоны и внутренности)
 | Тема | Статус | Задача |
 |---|---|---|
-| 8.1 Style vs ControlTemplate vs DataTemplate | ⬜ | |
-| 8.2 TemplateBinding | ⬜ | |
-| 8.3 Trigger/DataTrigger/MultiTrigger vs VSM | ⬜ | |
-| 8.4 StaticResource vs DynamicResource | ⬜ | |
-| 8.5 Routed Events — Bubbling vs Tunneling | ⬜ | |
-| 8.6 Dispatcher и UI-поток | ⬜ | |
-| 8.7 IValueConverter/IMultiValueConverter | ⬜ | |
+| 8.1 Dependency Property | ⬜ | |
+| 8.2 IValueConverter/IMultiValueConverter | ⬜ | |
+| 8.3 Style vs ControlTemplate vs DataTemplate | ⬜ | |
+| 8.4 TemplateBinding | ⬜ | |
+| 8.5 Trigger/DataTrigger/MultiTrigger vs VSM | ⬜ | |
+
+## Блок 9: Тестирование и инструменты
+| Тема | Статус | Задача |
+|---|---|---|
+| 9.1 Основы юнит-тестирования (xUnit): `Fact`/`Theory`, Arrange-Act-Assert | ⬜ | |
