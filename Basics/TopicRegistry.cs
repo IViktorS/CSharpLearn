@@ -11,5 +11,6 @@ public static class TopicRegistry
         ("1.1", "Value types vs reference types", ValueVsReference.Run),
         ("1.2", "struct vs class — когда что выбирать", StructVsClass.Run),
         ("1.3", "Stack vs Heap", StackVsHeap.Run),
+        ("1.4", "Boxing / Unboxing", BoxingUnboxing.Run),
     ];
 }

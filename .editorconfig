@@ -1,0 +1,66 @@
+# EditorConfig — правила стиля для всего репозитория.
+# IDE (Visual Studio / Rider / VS Code) и `dotnet format` подхватывают его автоматически.
+# root = true означает "выше не искать, это корневой файл настроек".
+root = true
+
+# ── Общие правила для всех файлов ────────────────────────────────────────
+[*]
+charset = utf-8
+end_of_line = crlf
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = space
+indent_size = 4
+
+# ── C#-файлы ─────────────────────────────────────────────────────────────
+[*.cs]
+indent_size = 4
+
+# Скобки {} на новой строке (Allman) — стандарт для C#
+csharp_new_line_before_open_brace = all
+csharp_new_line_before_else = true
+csharp_new_line_before_catch = true
+csharp_new_line_before_finally = true
+
+# Не более одной пустой строки подряд
+dotnet_style_allow_multiple_blank_lines_experimental = false:suggestion
+
+# using-директивы: System.* сверху, сортировать по алфавиту
+dotnet_sort_system_directives_first = true
+csharp_using_directive_placement = outside_namespace:suggestion
+
+# Предпочитать var, когда тип очевиден
+csharp_style_var_when_type_is_apparent = true:suggestion
+csharp_style_var_for_built_in_types = true:suggestion
+
+# Современный синтаксис
+csharp_prefer_braces = true:suggestion
+csharp_style_expression_bodied_methods = when_on_single_line:suggestion
+csharp_style_namespace_declarations = file_scoped:suggestion
+
+# ── Соглашения об именах ─────────────────────────────────────────────────
+# Приватные поля — _camelCase
+dotnet_naming_rule.private_fields_underscore.symbols = private_fields
+dotnet_naming_rule.private_fields_underscore.style = underscore_camel
+dotnet_naming_rule.private_fields_underscore.severity = suggestion
+
+dotnet_naming_symbols.private_fields.applicable_kinds = field
+dotnet_naming_symbols.private_fields.applicable_accessibilities = private
+
+dotnet_naming_style.underscore_camel.capitalization = camel_case
+dotnet_naming_style.underscore_camel.required_prefix = _
+
+# Типы, методы, свойства — PascalCase
+dotnet_naming_rule.types_pascal.symbols = types_and_members
+dotnet_naming_rule.types_pascal.style = pascal
+dotnet_naming_rule.types_pascal.severity = suggestion
+
+dotnet_naming_symbols.types_and_members.applicable_kinds = class,struct,interface,enum,property,method,event
+dotnet_naming_style.pascal.capitalization = pascal_case
+
+# ── Файлы разметки/данных ────────────────────────────────────────────────
+[*.{xml,xaml,csproj,props,targets}]
+indent_size = 2
+
+[*.md]
+trim_trailing_whitespace = false
