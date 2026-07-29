@@ -13,5 +13,6 @@ public static class TopicRegistry
         ("1.3", "Stack vs Heap", StackVsHeap.Run),
         ("1.4", "Boxing / Unboxing", BoxingUnboxing.Run),
         ("1.5", "null, Nullable<T>, ?., ??, ??=, NRT", NullHandling.Run),
+        ("1.6", "Свойства (properties)", Properties.Run),
     ];
 }

@@ -44,8 +44,6 @@ public static class NullHandling
         x = 7;
         Console.WriteLine($"x.HasValue: {x.HasValue}");
         Console.WriteLine($"x.GetValueOrDefault(): {x.GetValueOrDefault()}");
-
-
     }
 
     // ── ЗАДАЧА 2: цепочка ?. и оператор ?? ────────────────────────────────
