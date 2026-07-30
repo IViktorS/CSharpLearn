@@ -14,5 +14,6 @@ public static class TopicRegistry
         ("1.4", "Boxing / Unboxing", BoxingUnboxing.Run),
         ("1.5", "null, Nullable<T>, ?., ??, ??=, NRT", NullHandling.Run),
         ("1.6", "Свойства (properties)", Properties.Run),
+        ("1.7", "enum (+ [Flags])", Enums.Run),
     ];
 }

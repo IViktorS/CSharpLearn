@@ -109,7 +109,11 @@ public static class NullHandling
 
         try
         {
+            // Намеренно обращаемся к члену по null-ссылке, чтобы поймать NRE.
+            // Предупреждение NRT (CS8602) здесь ожидаемо — глушим осознанно.
+#pragma warning disable CS8602
             int bad = p.Name.Length;
+#pragma warning restore CS8602
         }
         catch (Exception ex)
         {
