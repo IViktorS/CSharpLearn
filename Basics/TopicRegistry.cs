@@ -15,5 +15,6 @@ public static class TopicRegistry
         ("1.5", "null, Nullable<T>, ?., ??, ??=, NRT", NullHandling.Run),
         ("1.6", "Свойства (properties)", Properties.Run),
         ("1.7", "enum (+ [Flags])", Enums.Run),
+        ("1.8", "Модификаторы доступа (все 6)", AccessModifiers.Run),
     ];
 }
