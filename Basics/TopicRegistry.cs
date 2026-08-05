@@ -17,5 +17,6 @@ public static class TopicRegistry
         ("1.7", "enum (+ [Flags])", Enums.Run),
         ("1.8", "Модификаторы доступа (все 6)", AccessModifiers.Run),
         ("1.9", "readonly vs const", ReadonlyVsConst.Run),
+        ("1.10", "static (класс/метод/конструктор/поле)", StaticMembers.Run),
     ];
 }
