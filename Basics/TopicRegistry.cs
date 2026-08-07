@@ -19,5 +19,6 @@ public static class TopicRegistry
         ("1.9", "readonly vs const", ReadonlyVsConst.Run),
         ("1.10", "static (класс/метод/конструктор/поле)", StaticMembers.Run),
         ("1.11", "out / ref / in параметры", RefOutIn.Run),
+        ("1.12", "StringBuilder vs string", StringBuilderVsString.Run),
     ];
 }
