@@ -23,6 +23,11 @@
 
 ### Конвенции проекта
 - **`Basics/`** — консольный проект (.NET 10) с задачами по «Блоку 1» и далее. Каждая тема — отдельный статический класс с методом `Run()` и задачами `Task1()`, `Task2()`, ... внутри.
+- **Папка на тему.** Каждая тема живёт в своей папке `Basics/Block{N}/{id}-{Название}/`, внутри два файла:
+  - `EXPLANATION.md` — конспект объяснения темы (справочник, к которому можно вернуться);
+  - `{Название}.cs` — задачи с предсказаниями и решением.
+  Пример: `Basics/Block1/1.13-Tuples/` → `EXPLANATION.md` + `Tuples.cs`. Namespace остаётся `Basics.Block1` независимо от вложенности папок.
+- **Claude пишет `EXPLANATION.md` при разборе каждой новой темы** (по одному факту-конспекту), затем — файл с задачами.
 - **`Basics/TopicRegistry.cs`** — реестр тем. Новая тема добавляется одной строкой: `("1.2", "Название", StructVsClass.Run)`.
 - **`Basics/Program.cs`** — раннер. Запуск: `dotnet run --project Basics -- 1.2` (или `list` для списка тем; без аргумента — последняя тема).
 - **Как запускать в Visual Studio:** для просмотра вывода использовать **терминал** (`dotnet run --project Basics -- <id>`) или **Ctrl+F5** (Start Without Debugging — окно не закрывается). Под **F5** консоль закрывается мгновенно при завершении программы → «нет вывода» (вывод был, окно схлопнулось). F5 — только когда нужны точки останова.
@@ -49,18 +54,18 @@
 ## Блок 1: Основы C#
 | Тема | Статус | Задача |
 |---|---|---|
-| 1.1 Value types vs reference types | ✅ | `Basics/Block1/ValueVsReference.cs` |
-| 1.2 `struct` vs `class` — когда что | ✅ | `Basics/Block1/StructVsClass.cs` |
-| 1.3 Stack vs Heap | ✅ | `Basics/Block1/StackVsHeap.cs` |
-| 1.4 Boxing/unboxing | ✅ | `Basics/Block1/BoxingUnboxing.cs` |
-| 1.5 `null`, `Nullable<T>`, `?.`, `??`, `??=`, NRT | ✅ | `Basics/Block1/NullHandling.cs` |
-| 1.6 Свойства (auto, `get`/`set`, `init`, вычисляемые, expression-bodied) | ✅ | `Basics/Block1/Properties.cs` |
-| 1.7 `enum` (+ `[Flags]`) | ✅ | `Basics/Block1/Enums.cs` |
-| 1.8 Модификаторы доступа (все 6) | ✅ | `Basics/Block1/AccessModifiers.cs` |
-| 1.9 `readonly` vs `const` | ✅ | `Basics/Block1/ReadonlyVsConst.cs` |
-| 1.10 `static` (класс/метод/конструктор/поле) | ✅ | `Basics/Block1/StaticMembers.cs` |
-| 1.11 `out` / `ref` / `in` параметры | ✅ | `Basics/Block1/RefOutIn.cs` |
-| 1.12 `StringBuilder` vs `string` (конкатенация в цикле) | ✅ | `Basics/Block1/StringBuilderVsString.cs` |
+| 1.1 Value types vs reference types | ✅ | `Basics/Block1/1.1-ValueVsReference/` |
+| 1.2 `struct` vs `class` — когда что | ✅ | `Basics/Block1/1.2-StructVsClass/` |
+| 1.3 Stack vs Heap | ✅ | `Basics/Block1/1.3-StackVsHeap/` |
+| 1.4 Boxing/unboxing | ✅ | `Basics/Block1/1.4-BoxingUnboxing/` |
+| 1.5 `null`, `Nullable<T>`, `?.`, `??`, `??=`, NRT | ✅ | `Basics/Block1/1.5-NullHandling/` |
+| 1.6 Свойства (auto, `get`/`set`, `init`, вычисляемые, expression-bodied) | ✅ | `Basics/Block1/1.6-Properties/` |
+| 1.7 `enum` (+ `[Flags]`) | ✅ | `Basics/Block1/1.7-Enums/` |
+| 1.8 Модификаторы доступа (все 6) | ✅ | `Basics/Block1/1.8-AccessModifiers/` |
+| 1.9 `readonly` vs `const` | ✅ | `Basics/Block1/1.9-ReadonlyVsConst/` |
+| 1.10 `static` (класс/метод/конструктор/поле) | ✅ | `Basics/Block1/1.10-StaticMembers/` |
+| 1.11 `out` / `ref` / `in` параметры | ✅ | `Basics/Block1/1.11-RefOutIn/` |
+| 1.12 `StringBuilder` vs `string` (конкатенация в цикле) | ✅ | `Basics/Block1/1.12-StringBuilderVsString/` |
 | 1.13 Кортежи (tuples) и деконструкция | ⬜ | |
 | 1.14 Pattern matching (`switch`-выражения, `is`-паттерны, property patterns) | ⬜ | |
 | 1.15 Рекурсия (базовый случай, стек вызовов, StackOverflow) | ⬜ | |
