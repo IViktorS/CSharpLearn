@@ -1,4 +1,5 @@
 using Basics.Block1;
+using Basics.Checkpoints;
 
 namespace Basics;
 
@@ -20,5 +21,9 @@ public static class TopicRegistry
         ("1.10", "static (класс/метод/конструктор/поле)", StaticMembers.Run),
         ("1.11", "out / ref / in параметры", RefOutIn.Run),
         ("1.12", "StringBuilder vs string", StringBuilderVsString.Run),
+        ("1.13", "Кортежи (tuples) и деконструкция", Tuples.Run),
+
+        // Контрольные точки — смешанные задачи на стык тем
+        ("R1", "🔁 Контрольная точка 1 (темы 1.1–1.13)", Checkpoint1.Run),
     ];
 }
