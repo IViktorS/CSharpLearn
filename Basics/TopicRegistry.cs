@@ -22,6 +22,7 @@ public static class TopicRegistry
         ("1.11", "out / ref / in параметры", RefOutIn.Run),
         ("1.12", "StringBuilder vs string", StringBuilderVsString.Run),
         ("1.13", "Кортежи (tuples) и деконструкция", Tuples.Run),
+        ("1.14", "Pattern matching", PatternMatching.Run),
 
         // Контрольные точки — смешанные задачи на стык тем
         ("R1", "🔁 Контрольная точка 1 (темы 1.1–1.13)", Checkpoint1.Run),
