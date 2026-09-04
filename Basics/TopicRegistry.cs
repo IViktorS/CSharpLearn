@@ -8,6 +8,9 @@ public static class TopicRegistry
 {
     public static readonly (string Id, string Title, Action Run)[] All =
     [
+        // Контрольные точки — смешанные задачи на стык тем
+        ("R1", "🔁 Контрольная точка 1 (темы 1.1–1.13)", Checkpoint1.Run),
+
         // Блок 1: Основы C#
         ("1.1", "Value types vs reference types", ValueVsReference.Run),
         ("1.2", "struct vs class — когда что выбирать", StructVsClass.Run),
@@ -23,8 +26,5 @@ public static class TopicRegistry
         ("1.12", "StringBuilder vs string", StringBuilderVsString.Run),
         ("1.13", "Кортежи (tuples) и деконструкция", Tuples.Run),
         ("1.14", "Pattern matching", PatternMatching.Run),
-
-        // Контрольные точки — смешанные задачи на стык тем
-        ("R1", "🔁 Контрольная точка 1 (темы 1.1–1.13)", Checkpoint1.Run),
     ];
 }
