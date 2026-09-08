@@ -1,0 +1,197 @@
+<Window x:Class="CSharpLearn.Block7.LayoutPanels"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="7.1 Панели компоновки" Height="500" Width="500">
+
+    <!--
+        ТЕМА 7.1 — Панели компоновки
+
+        Правила прежние: сначала впиши ПРЕДСКАЗАНИЕ, потом запускай.
+        Запуск:  dotnet run, проект CSharpLearn, аргумент 7.1
+        (точную команду с дефисами см. в EXPLANATION.md — в XML-комментарий
+        две чёрточки подряд не помещаются, это ошибка MC3000)
+
+        Окно специально сделано 500x500 — числа в предсказаниях считай
+        от этой ширины. Растягивать окно мышью можно и полезно: половина
+        смысла темы в том, что происходит при изменении размера.
+
+        Задачи разложены по вкладкам. TabControl здесь — просто контейнер,
+        чтобы каждой задаче досталась своя area; отдельного механизма
+        в нём для этой темы нет.
+    -->
+
+    <TabControl>
+
+        <!-- ═══ ЗАДАЧА 1: Grid — форма ═══════════════════════════════════
+             Свёрстай простую форму внутри Grid ниже:
+
+               строка 0:  "Имя:"     | TextBox
+               строка 1:  "Телефон:" | TextBox
+               строка 2:  пусто      | Button "Сохранить", прижатая ВПРАВО
+
+             Требования:
+               • столбец подписей — Auto, столбец полей — *
+               • высота всех трёх строк — Auto
+               • между элементами отступ, чтобы не липли друг к другу
+               • кнопка НЕ должна растягиваться на всю ячейку
+
+             ПРЕДСКАЗАНИЕ (1) ширина окна 500, самая длинная подпись хочет 70.
+                              Сколько получит столбец полей? 430
+             ПРЕДСКАЗАНИЕ (2) что произойдёт со столбцом полей, если подпись
+                              заменить на очень длинную, которая хочет 460? Столбцу полей останется 40.
+             ПРЕДСКАЗАНИЕ (3) какое свойство и в какое значение надо выставить
+                              кнопке, чтобы она перестала растягиваться,
+                              и почему по умолчанию она растянута? Я выставил HorizontalAlignment.
+                              Но в целом можно и задать width, если по какой то причине нужно указать определенную ширину.
+                              Растягивается, так как у столбца, в котором она расположена, Width="*"
+        -->
+        <TabItem Header="1. Grid">
+            <Grid Margin="12">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto"/>
+          <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+              
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="Имя:" Grid.Row="0" Margin="5"/>
+        <TextBox Grid.Column="1" Grid.Row="0" Margin="5"/>
+
+        <TextBlock Text="Телефон:" Grid.Row="1" Margin="5" />
+        <TextBox Grid.Column="1" Grid.Row="1" Margin="5"/>
+
+        <Button Grid.Column="1" Grid.Row="2" Content="Сохранить" HorizontalAlignment="Right" Margin="5"/>
+      </Grid>
+        </TabItem>
+
+        <!-- ═══ ЗАДАЧА 2: DockPanel — порядок детей ══════════════════════
+             Ниже каркас окна уже свёрстан, но порядок детей "неудачный":
+             дерево объявлено ПЕРВЫМ, до тулбара.
+
+             ПРЕДСКАЗАНИЕ (1) как это выглядит сейчас: докуда доходит
+                              серая полоса тулбара и докуда — синее дерево?
+      Синее дерево занимает всю высоту сверху вниз и упирается правой границей в тулбар, рабочую область и статусбар
+      Серая полоса тулбара упирается левой границей в дерево.
+             ПРЕДСКАЗАНИЕ (2) кто из четырёх детей займёт остаток и почему
+                              (какое свойство DockPanel за это отвечает
+                              и какое у него значение по умолчанию):
+      рабочая область, так как она идет последней в DockPanel. По умолчанию LastChildFill = true.
+             ПРЕДСКАЗАНИЕ (3) что изменится, если поменять порядок так,
+                              чтобы тулбар и статусбар шли ПЕРВЫМИ: Они займут всю доступную ширину окна.
+      Дерево будет зажато слева между ними и остальное пространство займет рабочай область
+
+             ЗАДАНИЕ: сначала предскажи и посмотри как есть, потом переставь
+             детей в правильный порядок и оставь рабочий вариант.
+        -->
+        <TabItem Header="2. DockPanel">
+            <DockPanel>
+                <Border DockPanel.Dock="Top" Height="40" Background="LightGray">
+                    <TextBlock Text="тулбар (Top)" Margin="8" />
+                </Border>
+
+                <Border DockPanel.Dock="Bottom" Height="28" Background="Gainsboro">
+                    <TextBlock Text="статусбар (Bottom)" Margin="8,4" />
+                </Border>
+              
+                <Border DockPanel.Dock="Left" Width="200" Background="LightSteelBlue">
+                    <TextBlock Text="дерево (Left)" Margin="8" />
+                </Border>
+
+                <Border Background="White">
+                    <TextBlock Text="рабочая область (последний ребёнок)" Margin="8" />
+                </Border>
+            </DockPanel>
+        </TabItem>
+
+        <!-- ═══ ЗАДАЧА 3 (ПРОВОКАЦИОННАЯ): прокрутка ═════════════════════
+             Четыре варианта одного и того же: ScrollViewer с содержимым
+             высотой 2000 внутри разных панелей. Содержимое размечено
+             полосами по 100, чтобы было видно, докуда доходит показ.
+
+             В ОДНОМ из вариантов правдоподобный ответ неверен. Заполняй
+             предсказания ДО запуска — в этом весь смысл задачи.
+
+             ПРЕДСКАЗАНИЕ (A) StackPanel > ScrollViewer, ничего не ограничено.
+                              Появится прокрутка? Нет, так как StackPanel дает занять Border столько места, сколько он просит, а ScrollViewer лежит внутри StackPanel
+      и поскольку Border уместился, то полоса прокрутки отображаться не будет.
+      
+             ПРЕДСКАЗАНИЕ (B) то же, но у САМОЙ StackPanel задана Height=200.
+                              Появится прокрутка? Нет. StackPanel спросит у ребенка, сколько нужно места и в итоге получит 2000 ( ScrollViewer спросит у своего ребенка).
+      И ScrollViewer вернут прямоугольник с требуемой высотой.
+      
+             ПРЕДСКАЗАНИЕ (C) то же, но Height=200 задана самому ScrollViewer.
+                              Появится прокрутка? Да, так как теперь Border не может получить высоту больше 200 , поскольку она задана у родителя, который вернут ее ScrollViewer
+      при первом проходе.
+      ПОПРАВКА: Да, так как теперь ScrollViewer ограничен высотой 200 и не может отрисовать за раз всю высоту Border
+      
+             ПРЕДСКАЗАНИЕ (D) вместо StackPanel — Grid со строкой Height="*".
+                              Появится прокрутка? Да. Так как у строки в которой расположен border ограничение *, соответственно высота ограничена тем значением, котрое
+      останется после измерения первой строки с Auto.
+      
+             ПРЕДСКАЗАНИЕ (E) если (B) и (C) разошлись — объясни ЧЕРЕЗ ДВА
+                              ПРОХОДА, почему одно и то же число 200 на
+                              родителе и на ребёнке даёт разный результат.
+                              Это главный пункт задачи. Потому что в первом случае, когда StackPanel спрашивает у ребенка, сколько ему нужно места,
+      то ScrollViewer спросив у своего ребенка Border говорит, что нужно 2000 и StackPanel отдает требуемый прямоугольник. У самой ScrollViewer нет заданного желаемого размера.
+      Во втором случае мы так же спрашиваем сперва у ScrollViewer, сколько она хочет, она конечно спросит у детей, но ответит, что хочет 200, так как такой размер задан именно у нее
+      и StackPanel даст ей соответствующий прямоугольник с выостой 200.
+
+             ЗАДАНИЕ: после разбора сформулируй здесь правило — что именно
+             должно случиться, чтобы ScrollViewer заработал:
+      ScrollViewer должен получить ограничение по высоте либо через ролителя, либо оно должно быть заданно себе.
+      
+      
+        -->
+        <TabItem Header="3. Прокрутка">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <!-- A: без ограничений -->
+                <StackPanel Grid.Column="0">
+                    <TextBlock Text="A" FontWeight="Bold" />
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <Border Height="2000" Background="MistyRose" />
+                    </ScrollViewer>
+                </StackPanel>
+
+                <!-- B: Height задана РОДИТЕЛЮ -->
+                <StackPanel Grid.Column="1" Height="200">
+                    <TextBlock Text="B" FontWeight="Bold" />
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <Border Height="2000" Background="Honeydew" />
+                    </ScrollViewer>
+                </StackPanel>
+
+                <!-- C: Height задана РЕБЁНКУ -->
+                <StackPanel Grid.Column="2">
+                    <TextBlock Text="C" FontWeight="Bold" />
+                    <ScrollViewer Height="200" VerticalScrollBarVisibility="Auto">
+                        <Border Height="2000" Background="LightYellow" />
+                    </ScrollViewer>
+                </StackPanel>
+
+                <!-- D: строка Grid со звёздочкой -->
+                <Grid Grid.Column="3">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Text="D" FontWeight="Bold" />
+                    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                        <Border Height="2000" Background="Lavender" />
+                    </ScrollViewer>
+                </Grid>
+            </Grid>
+        </TabItem>
+
+    </TabControl>
+</Window>

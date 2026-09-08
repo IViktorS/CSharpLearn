@@ -1,12 +1,23 @@
 ﻿<Window x:Class="CSharpLearn.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CSharpLearn"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="CSharpLearn — WPF-трек" Height="300" Width="620">
 
-    </Grid>
+    <!-- Это окно-заглушка: список тем WPF-трека.
+         Само оно тоже свёрстано панелью — DockPanel с заголовком сверху. -->
+    <DockPanel Margin="16">
+        <TextBlock DockPanel.Dock="Top"
+                   FontSize="18"
+                   Margin="0,0,0,12"
+                   Text="Темы WPF-трека" />
+
+        <TextBlock DockPanel.Dock="Bottom"
+                   Margin="0,12,0,0"
+                   Foreground="Gray"
+                   TextWrapping="Wrap"
+                   Text="Запуск темы: dotnet run --project CSharpLearn -- 7.1" />
+
+        <TextBlock x:Name="TopicList" TextWrapping="Wrap" />
+    </DockPanel>
 </Window>
