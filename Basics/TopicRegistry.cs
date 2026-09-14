@@ -26,5 +26,6 @@ public static class TopicRegistry
         ("1.12", "StringBuilder vs string", StringBuilderVsString.Run),
         ("1.13", "Кортежи (tuples) и деконструкция", Tuples.Run),
         ("1.14", "Pattern matching", PatternMatching.Run),
+        ("1.15", "Рекурсия", Recursion.Run),
     ];
 }
