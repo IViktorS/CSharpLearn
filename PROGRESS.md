@@ -4,7 +4,7 @@
 
 Правила работы — [RULES.md](RULES.md). Журнал по закрытым темам — [JOURNAL.md](JOURNAL.md).
 
-**Сейчас:** 7.2 StaticResource vs DynamicResource (ход WPF-трека по правилу 2:1), затем 1.17 Дженерики — первая тема с задачей типа 2.
+**Сейчас:** 1.17 Дженерики — первая тема с задачей типа 2 (формат зафиксирован в RULES.md).
 
 ## Порядок прохождения
 
@@ -132,7 +132,7 @@
 | Тема | Статус | Готова | Задача |
 |---|---|---|---|
 | 7.1 Панели компоновки (`Grid`, `StackPanel`, `DockPanel`, `Canvas`) | ✅ | ✅ | `CSharpLearn/Block7/7.1-LayoutPanels/` |
-| 7.2 StaticResource vs DynamicResource | 🟡 | ✅ сейчас | `CSharpLearn/Block7/7.2-Resources/` |
+| 7.2 StaticResource vs DynamicResource | ✅ | ✅ | `CSharpLearn/Block7/7.2-Resources/` |
 | 7.3 DataContext — наследование по дереву | ⬜ | ✅ сейчас | |
 | 7.4 Data Binding — режимы, триггеры | ⬜ | ✅ сейчас (без «почему не обновилось») | |
 | ⛔ **Стоп-линия WPF-трека.** Ниже — только после 2.2 и Блока 3 | | | |

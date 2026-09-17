@@ -1,0 +1,128 @@
+<Window x:Class="CSharpLearn.Block7.Resources"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:sys="clr-namespace:System;assembly=System.Runtime"
+        Title="7.2 Ресурсы" Height="520" Width="640">
+
+    <!--
+        ТЕМА 7.2 — StaticResource vs DynamicResource
+
+        Правила прежние: сначала впиши ПРЕДСКАЗАНИЕ, потом запускай.
+        Запуск: dotnet run, проект CSharpLearn, аргумент 7.2
+        (точная команда с дефисами есть в EXPLANATION.md)
+
+        Кнопки в задаче 2 уже подключены в файле Resources.xaml.cs.
+        Механизм событий это Блок 3, сюда он не входит: считай, что
+        нажатие кнопки просто вызывает одноимённый метод. Чёрный ящик.
+    -->
+
+    <Window.Resources>
+        <SolidColorBrush x:Key="AccentBrush" Color="DarkOrange" />
+        <sys:Double x:Key="TitleSize">22</sys:Double>
+        <sys:String x:Key="AppName"> Программа</sys:String>
+
+  </Window.Resources>
+
+    <TabControl>
+
+        <!-- ═══ ЗАДАЧА 1: объявить и применить ресурсы ═══════════════════
+             В Window.Resources выше объяви три ресурса:
+               • SolidColorBrush с ключом AccentBrush (любой заметный цвет)
+               • sys:Double с ключом TitleSize (например, 22)
+               • sys:String с ключом AppName (любая строка)
+
+             Затем в панели ниже примени их через StaticResource:
+               • заголовок TextBlock: Foreground из AccentBrush,
+                 FontSize из TitleSize, Text из AppName
+               • ещё один элемент, использующий AccentBrush повторно,
+                 чтобы было видно, что значение одно на двоих
+
+             ПРЕДСКАЗАНИЕ (1) что произойдёт, если объявить ресурсы НЕ в
+                              Window.Resources, а ниже места использования?
+                              Ошибка сборки, ошибка при запуске или
+                              молчаливое отсутствие эффекта? Будет ошибка при запуске.
+             ПРЕДСКАЗАНИЕ (2) что будет при опечатке в ключе StaticResource: бросит исключение
+             ПРЕДСКАЗАНИЕ (3) что будет при той же опечатке,
+                              но в DynamicResource: просто данный ресурс не применится.
+             ПРЕДСКАЗАНИЕ (4) ресурс AccentBrush использован дважды.
+                              В памяти это одна кисть или две? Одна.
+        -->
+        <TabItem Header="1. Объявить и применить">
+            <StackPanel Margin="16">
+        <TextBlock Foreground="{StaticResource AccentBrush}"
+                   FontSize="{StaticResource TitleSize}"
+                   Text="{StaticResource AppName}"/>
+        <TextBlock Foreground="{StaticResource AccentBrush}"
+                   FontSize="{StaticResource TitleSize}"
+                   Text="{StaticResource AppName}"/>
+      </StackPanel>
+        </TabItem>
+
+        <!-- ═══ ЗАДАЧА 2 (ПРОВОКАЦИОННАЯ): что значит «не обновляется» ═══
+             Ниже три прямоугольника. Все трое берут цвет из ОДНОГО
+             ресурса DemoBrush, объявленного прямо в этой панели:
+               • левый   — через StaticResource
+               • средний — через DynamicResource
+               • правый  — через StaticResource (дубль левого, для контроля)
+
+             Две кнопки делают РАЗНЫЕ вещи, и в этом весь смысл задачи:
+               • «Заменить ресурс»  — кладёт в словарь НОВУЮ кисть
+                                      по тому же ключу
+               • «Изменить кисть»   — берёт кисть ИЗ словаря и меняет
+                                      её свойство Color, ничего не заменяя
+
+             Заполни предсказания ДО запуска. Здесь правдоподобный ответ
+             неверен как минимум в одной клетке таблицы.
+
+             ПРЕДСКАЗАНИЕ, нажали «Заменить ресурс»:
+                  левый (Static)   : не изменится
+                  средний (Dynamic): цвет изменится
+                  правый (Static)  : не изменится
+
+             ПРЕДСКАЗАНИЕ, нажали «Изменить кисть» (на свежем запуске):
+                  левый (Static)   : цвет изменится
+                  средний (Dynamic): цвет изменится
+                  правый (Static)  : цвет изменится
+
+             ПРЕДСКАЗАНИЕ (итог) если строки таблицы разошлись — сформулируй,
+                  на что именно НЕ реагирует StaticResource, а на что
+                  реагирует. Одна фраза, и она должна объяснять обе строки:
+      //StaticResource не реагирует на змену объекта в словаре, а реагирует на изменение свойств объекта, если он не был заменён.
+
+             ПРЕДСКАЗАНИЕ (связь) с какой пройденной темой из Блока 1
+                  это различие совпадает буквально? 1.9 аналогию с readonly провел.
+        -->
+        <TabItem Header="2. Замена против правки">
+            <DockPanel Margin="16">
+                <DockPanel.Resources>
+                    <SolidColorBrush x:Key="DemoBrush" Color="IndianRed" />
+                </DockPanel.Resources>
+
+                <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,0,0,12">
+                    <Button x:Name="ReplaceButton" Content="Заменить ресурс" Padding="12,4" Margin="0,0,8,0" />
+                    <Button x:Name="MutateButton" Content="Изменить кисть" Padding="12,4" Margin="0,0,8,0" />
+                    <Button x:Name="ResetButton" Content="Сброс" Padding="12,4" />
+                </StackPanel>
+
+                <TextBlock DockPanel.Dock="Bottom" x:Name="StatusText"
+                           Margin="0,12,0,0" Foreground="Gray" TextWrapping="Wrap" />
+
+                <UniformGrid Columns="3">
+                    <StackPanel Margin="4">
+                        <TextBlock Text="Static" HorizontalAlignment="Center" />
+                        <Border Height="140" Background="{StaticResource DemoBrush}" />
+                    </StackPanel>
+                    <StackPanel Margin="4">
+                        <TextBlock Text="Dynamic" HorizontalAlignment="Center" />
+                        <Border Height="140" Background="{DynamicResource DemoBrush}" />
+                    </StackPanel>
+                    <StackPanel Margin="4">
+                        <TextBlock Text="Static (дубль)" HorizontalAlignment="Center" />
+                        <Border Height="140" Background="{StaticResource DemoBrush}" />
+                    </StackPanel>
+                </UniformGrid>
+            </DockPanel>
+        </TabItem>
+
+    </TabControl>
+</Window>

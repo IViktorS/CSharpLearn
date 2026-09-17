@@ -12,5 +12,6 @@ public static class TopicWindows
     [
         // Блок 7: WPF — основы и вёрстка
         ("7.1", "Панели компоновки (Grid, StackPanel, DockPanel, Canvas)", () => new LayoutPanels()),
+        ("7.2", "StaticResource vs DynamicResource", () => new Block7.Resources()),
     ];
 }
