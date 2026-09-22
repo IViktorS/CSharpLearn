@@ -258,14 +258,22 @@ public static class Generics
 
         // Тут у меня возникло затруднение с тем, что я не понимал, как именно в программе это будт использоваться дальше, если мы говорим о реальном проекте.
         // Предположил, что будут заводиться локальные переменные и в них будут храниться значения параметров.
-        // В реальном проекте это наверное были бы свойства класса в каком-нибудь сервисе или API, но так как в задаче не было сказано, что нужно делать с этими параметрами, я решил сделать локальные переменные.
+        // В реальном проекте это наверное были бы поля класса в каком-нибудь сервисе или API, но так как в задаче не было сказано, что нужно делать с этими параметрами, я решил сделать локальные переменные.
         var spindleTemperature = new MachineParameters<double>();
         spindleTemperature.SetValue(75.5);
-        Console.WriteLine($"Температура шпинделя: {spindleTemperature.GetValue()}");
+        Console.WriteLine($"Температура шпинделя: {spindleTemperature.GetValue()}, была установлена: {spindleTemperature.HasValue()}");
 
         var operatorName = new MachineParameters<string>();
         operatorName.SetValue("Иванов");
-        Console.WriteLine($"Дежурный оператор: {operatorName.GetValue()}");
+        Console.WriteLine($"Дежурный оператор: {operatorName.GetValue()}, была установлена: {operatorName.HasValue()}");
+
+        var operatorName2 = new MachineParameters<string>();
+        operatorName2.SetValue(string.Empty);
+        Console.WriteLine($"Дежурный оператор: {operatorName2.GetValue()}, была установлена: {operatorName2.HasValue()}");
+
+        var operatorName1 = new MachineParameters<string>();
+        operatorName1.SetValue(null);
+        Console.WriteLine($"Дежурный оператор: {operatorName1.GetValue()}, была установлена: {operatorName1.HasValue()}");
 
         var lastErrorCode = new MachineParameters<int>();
         lastErrorCode.SetValue(404);
@@ -277,6 +285,7 @@ public static class Generics
 
 //Сперва я хотел сделать класс в котором были свойства под каждый параметр, но потом понял что это не будет масштабируемо.
 //Поэтому я решил сделать обобщенный класс MachineParameters<T> в котором будет храниться значение параметра и флаг который будет показывать было ли значение установлено.
+//Каких то других развилок не возникало.
 public class MachineParameters<T>
 {
     private T? _value;
@@ -284,14 +293,13 @@ public class MachineParameters<T>
 
     public void SetValue(T value)
     {
-        if (value == null)
-            _value = default;
         _value = value;
-
         _hasValue = true;
     }
 
-    public T GetValue() => _value;
+    public T? GetValue() => !_hasValue ? default : _value!;
+
+    public bool HasValue() => _hasValue;
 }
 
 // ── материал к задаче 1 ───────────────────────────────────────────────────
