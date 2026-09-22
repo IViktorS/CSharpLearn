@@ -29,5 +29,6 @@ public static class TopicRegistry
         ("1.15", "Рекурсия", Recursion.Run),
         ("1.16", "Методы расширения", ExtensionMethods.Run),
         ("1.17", "Дженерики: обобщённые классы и методы", Generics.Run),
+        ("1.18", "Ограничения дженериков (where T : ...)", GenericConstraints.Run),
     ];
 }
