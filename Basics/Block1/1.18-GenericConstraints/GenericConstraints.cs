@@ -33,15 +33,15 @@ public static class GenericConstraints
     //        в комментарий. Под каждым неверным предсказанием допиши
     //        строку ПОПРАВКА с верным механизмом.
     //
-    // ПРЕДСКАЗАНИЕ (1) Gate.Val(5):
-    // ПРЕДСКАЗАНИЕ (2) Gate.Val(DateTime.Now):
-    // ПРЕДСКАЗАНИЕ (3) Gate.Val((int?)5):
-    // ПРЕДСКАЗАНИЕ (4) Gate.Val("текст"):
-    // ПРЕДСКАЗАНИЕ (5) Gate.Ref("текст"):
-    // ПРЕДСКАЗАНИЕ (6) Gate.Ref(5):
-    // ПРЕДСКАЗАНИЕ (7) Gate.Ref((int?)5):
+    // ПРЕДСКАЗАНИЕ (1) Gate.Val(5): Скомпилируется. 5 это int - значимый тип, то, что ожидает метод.
+    // ПРЕДСКАЗАНИЕ (2) Gate.Val(DateTime.Now): Скомпилируется. DateTime это также значимый тип.
+    // ПРЕДСКАЗАНИЕ (3) Gate.Val((int?)5): Нет. where T : struct и nullable int тут запрещен. 
+    // ПРЕДСКАЗАНИЕ (4) Gate.Val("текст"): Нет, так как передается строка, а это ссылочный тип.
+    // ПРЕДСКАЗАНИЕ (5) Gate.Ref("текст"): Скомпилируется. Так как where T : class проверяет, что передается ссылочный тип.
+    // ПРЕДСКАЗАНИЕ (6) Gate.Ref(5): Нет, так как передаем значимый тип.
+    // ПРЕДСКАЗАНИЕ (7) Gate.Ref((int?)5): Нет. Nullable int это структура с полями.
     //
-    // ПРЕДСКАЗАНИЕ (8) в каком из семи уверенность ниже всего?
+    // ПРЕДСКАЗАНИЕ (8) в каком из семи уверенность ниже всего? 3 и 4,так как забыл какой точно ссылочный это или нет, потом посмотрел в конспекте. Еще раздумывал над 2, полез искать, что это за тип.
     //   (отвечай конкретным номером — «везде одинаково» в прошлый раз
     //    не сработало: оба промаха пришлись на спокойные места)
     //
@@ -49,13 +49,13 @@ public static class GenericConstraints
     {
         Console.WriteLine("--- Задача 1 ---");
 
-        // Console.WriteLine(Gate.Val(5));
-        // Console.WriteLine(Gate.Val(DateTime.Now));
-        // Console.WriteLine(Gate.Val((int?)5));
-        // Console.WriteLine(Gate.Val("текст"));
-        // Console.WriteLine(Gate.Ref("текст"));
-        // Console.WriteLine(Gate.Ref(5));
-        // Console.WriteLine(Gate.Ref((int?)5));
+        Console.WriteLine(Gate.Val(5));
+        Console.WriteLine(Gate.Val(DateTime.Now));
+        //Console.WriteLine(Gate.Val((int?)5));
+        //Console.WriteLine(Gate.Val("текст"));
+        Console.WriteLine(Gate.Ref("текст"));
+        //Console.WriteLine(Gate.Ref(5));
+        //Console.WriteLine(Gate.Ref((int?)5));
     }
 
     // ── ЗАДАЧА 2: что ограничение разрешает, а что нет ────────────────────
