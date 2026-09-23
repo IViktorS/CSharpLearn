@@ -1,3 +1,5 @@
+using System.Text;
+
 namespace Basics.Block1;
 
 // ТЕМА 1.18 — Ограничения дженериков (where T : ...)
@@ -67,20 +69,28 @@ public static class GenericConstraints
     // Порядок тот же: предсказать → раскомментировать все → собрать →
     // оставить рабочие → дописать ПОПРАВКА под неверными.
     //
-    // ПРЕДСКАЗАНИЕ (A) First<T>(T[]) с where T : class, возвращает null при пустом:
-    // ПРЕДСКАЗАНИЕ (B) Bigger<T>(T, T) с where T : IComparable<T>, через a.CompareTo(b):
-    // ПРЕДСКАЗАНИЕ (C) Bigger2<T>(T, T) с where T : IComparable<T>, через a > b:
-    // ПРЕДСКАЗАНИЕ (D) Make<T>() с where T : class, new():
+    // ПРЕДСКАЗАНИЕ (A) First<T>(T[]) с where T : class, возвращает null при пустом: Скомпилирутеся. Ограничение where T : class позволяет использовать null как возвращаемое значение.
+    // ПРЕДСКАЗАНИЕ (B) Bigger<T>(T, T) с where T : IComparable<T>, через a.CompareTo(b): Скомпилируется. Ограничение where T : IComparable<T> позволяет использовать метод CompareTo для сравнения объектов.
+    // ПРЕДСКАЗАНИЕ (C) Bigger2<T>(T, T) с where T : IComparable<T>, через a > b: Нет. Ограничение where T : IComparable<T> не позволяет использовать оператор сравнения.
+    // ПРЕДСКАЗАНИЕ (D) Make<T>() с where T : class, new(): Скомпилируется. Ограничение where T : class, new() позволяет создавать экземпляры ссылочных типов с конструктором по умолчанию.
     // ПРЕДСКАЗАНИЕ (E) Save<T>(T) — две перегрузки, различающиеся ТОЛЬКО
-    //                  ограничением (class и struct):
+    //                  ограничением (class и struct): Скомпилируется. Ограничение where T : class и where T : struct позволяет создавать перегрузки методов для разных типов.
     //
-    // ПРЕДСКАЗАНИЕ (F) в каком уверенность ниже всего? Номером.
+    //
+    // ПРЕДСКАЗАНИЕ (F) в каком уверенность ниже всего? Номером. B, E.
     //
     private static void Task2()
     {
         Console.WriteLine("--- Задача 2 ---");
 
-        // сюда — вызовы тех, что остались рабочими; аргументы выбираешь сам
+        var a = Fixed.First(new string[] { "a", "b" });
+        Console.WriteLine(a);
+
+        var b = Fixed.Bigger(5, 10);
+        Console.WriteLine(b);
+
+        var d = Fixed.Make<StringBuilder>();
+        Console.WriteLine(d.Capacity);
     }
 
     // ── ЗАДАЧА 3: цена ограничения ────────────────────────────────────────
@@ -146,23 +156,24 @@ public static class Gate
 public static class Fixed
 {
     // (A)
-    // public static T? First<T>(T[] items) where T : class
-    //     => items.Length == 0 ? null : items[0];
+    public static T? First<T>(T[] items) where T : class
+        => items.Length == 0 ? null : items[0];
 
     // (B)
-    // public static T Bigger<T>(T a, T b) where T : IComparable<T>
-    //     => a.CompareTo(b) > 0 ? a : b;
+    public static T Bigger<T>(T a, T b) where T : IComparable<T>
+        => a.CompareTo(b) > 0 ? a : b;
 
     // (C)
-    // public static T Bigger2<T>(T a, T b) where T : IComparable<T>
-    //     => a > b ? a : b;
+    //public static T Bigger2<T>(T a, T b) where T : IComparable<T>
+    //    => a > b ? a : b;
 
     // (D)
-    // public static T Make<T>() where T : class, new() => new T();
+    public static T Make<T>() where T : class, new() => new T();
 
     // (E)
-    // public static void Save<T>(T item) where T : class { }
-    // public static void Save<T>(T item) where T : struct { }
+    //public static void Save<T>(T item) where T : class { }
+    //public static void Save<T>(T item) where T : struct { }
+    // ПОПРАВКА: перегрузки с разными ограничениями не разрешены, так как они не различаются по сигнатуре метода.
 }
 
 // ── материал к задаче 3 ───────────────────────────────────────────────────
