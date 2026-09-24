@@ -104,37 +104,50 @@ public static class GenericConstraints
     //
     // Шаг 1. НЕ раскомментируя, предскажи: СКОЛЬКО там ошибок, в каких
     //        строках и что именно требуется от T. Коды не нужны, нужен
-    //        механизм.
+    //        механизм. 
     // Шаг 2. Раскомментируй класс, собери, сверься с предсказанием.
     // Шаг 3. Добавь ОДНО ограничение, после которого класс соберётся.
     //        Подходящих ответов может быть больше одного — выбери свой
-    //        и не меняй его до конца задачи.
+    //        и не меняй его до конца задачи. 
     // Шаг 4. Не раскомментируя строки в Task3, предскажи по каждой,
     //        пройдёт ли тип через ТВОЁ ограничение. Потом проверь.
     //
-    // ПРЕДСКАЗАНИЕ (1) сколько ошибок, где и что требуется от T:
-    // ПРЕДСКАЗАНИЕ (2) какое ограничение добавишь:
+    // ПРЕДСКАЗАНИЕ (1) сколько ошибок, где и что требуется от T: Ошибка 1 в строке _value = null; T не знает какой тип , по этому не может присвоить null.
+    // ПРЕДСКАЗАНИЕ (2) какое ограничение добавишь: where T : struct
     //
-    // ПРЕДСКАЗАНИЕ (3) new Slot<int>():
-    // ПРЕДСКАЗАНИЕ (4) new Slot<string>():
-    // ПРЕДСКАЗАНИЕ (5) new Slot<DateTime>():
-    // ПРЕДСКАЗАНИЕ (6) new Slot<int?>():
+    // ПРЕДСКАЗАНИЕ (3) new Slot<int>(): пройдет
+    // ПРЕДСКАЗАНИЕ (4) new Slot<string>(): Нет, так как string это ссылочный тип, а мы ограничили T значимыми типами.
+    // ПРЕДСКАЗАНИЕ (5) new Slot<DateTime>(): пройдет, так как DateTime это значимый тип.
+    // ПРЕДСКАЗАНИЕ (6) new Slot<int?>(): Нет, так как int? это Nullable<int>, а мы ограничили значимым.
     //
     // ПРЕДСКАЗАНИЕ (7) главный вопрос темы: за что ты заплатил этим
     //   ограничением? Назови конкретный сценарий из задачи 3 темы 1.17,
-    //   который после него стал невозможен.
+    //   который после него стал невозможен. Заплатил тем, что мы не сможем использовать ссылочный тип и вывести имя дежурного оператора из 1.17.
     //
     private static void Task3()
     {
         Console.WriteLine("--- Задача 3 ---");
 
-        // var a = new Slot<int>();
-        // var b = new Slot<string>();
-        // var c = new Slot<DateTime>();
-        // var d = new Slot<int?>();
+        //var a = new Slot<int>();
+        //var b = new Slot<string>();
+        //var c = new Slot<DateTime>();
+        //var d = new Slot<int?>();
 
         // после сборки: положи значение в рабочий Slot и выведи все три
         // состояния — «не приходило», «пришло пустым», «пришло со значением»
+        var a = new Slot<int>();
+        Console.WriteLine($"a: {a.Describe()}");
+        a.SetEmpty();
+        Console.WriteLine($"a: {a.Describe()}");
+        a.Set(42);
+        Console.WriteLine($"a: {a.Describe()}");
+
+        var c = new Slot<DateTime>();
+        Console.WriteLine($"c: {c.Describe()}");
+        c.SetEmpty();
+        Console.WriteLine($"c: {c.Describe()}");
+        c.Set(DateTime.Now);
+        Console.WriteLine($"c: {c.Describe()}");
     }
 }
 
@@ -179,33 +192,33 @@ public static class Fixed
 // ── материал к задаче 3 ───────────────────────────────────────────────────
 
 /// <summary>Ячейка на одно показание: различает три состояния без отдельного флага под пустоту.</summary>
-// public class Slot<T>
-// {
-//     /// <summary>Последнее показание; null означает «пришло пустым».</summary>
-//     private T? _value;
-//
-//     /// <summary>Приходило ли показание хоть раз.</summary>
-//     private bool _everSet;
-//
-//     /// <summary>Кладёт показание со значением.</summary>
-//     public void Set(T value)
-//     {
-//         _value = value;
-//         _everSet = true;
-//     }
-//
-//     /// <summary>Кладёт штатно пустое показание.</summary>
-//     public void SetEmpty()
-//     {
-//         _value = null;
-//         _everSet = true;
-//     }
-//
-//     /// <summary>Описывает текущее состояние словами.</summary>
-//     public string Describe()
-//     {
-//         if (!_everSet) return "показание не приходило";
-//         if (_value is null) return "пришло пустым";
-//         return $"пришло со значением {_value}";
-//     }
-// }
+public class Slot<T> where T: struct
+{
+    /// <summary>Последнее показание; null означает «пришло пустым».</summary>
+    private T? _value;
+
+    /// <summary>Приходило ли показание хоть раз.</summary>
+    private bool _everSet;
+
+    /// <summary>Кладёт показание со значением.</summary>
+    public void Set(T value)
+    {
+        _value = value;
+        _everSet = true;
+    }
+
+    /// <summary>Кладёт штатно пустое показание.</summary>
+    public void SetEmpty()
+    {
+        _value = null;
+        _everSet = true;
+    }
+
+    /// <summary>Описывает текущее состояние словами.</summary>
+    public string Describe()
+    {
+        if (!_everSet) return "показание не приходило";
+        if (_value is null) return "пришло пустым";
+        return $"пришло со значением {_value}";
+    }
+}
