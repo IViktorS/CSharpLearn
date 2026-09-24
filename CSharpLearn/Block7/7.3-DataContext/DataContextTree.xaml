@@ -1,0 +1,184 @@
+<Window x:Class="CSharpLearn.Block7.DataContextTree"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:CSharpLearn.Block7"
+        Title="7.3 DataContext" Height="600" Width="720">
+
+    <!--
+        ТЕМА 7.3 — DataContext, наследование по дереву
+
+        Правила прежние: сначала впиши ПРЕДСКАЗАНИЕ, потом запускай.
+        Запуск: dotnet run, проект CSharpLearn, аргумент 7.3
+        (точная команда есть в EXPLANATION.md)
+
+        Все три задачи — предсказания. Отдельного шага с вопросами нет.
+
+        Кнопки в задачах 2 и 3 подключены в DataContextTree.xaml.cs.
+        Механизм событий — Блок 3; считай, что нажатие кнопки просто
+        вызывает одноимённый метод. Чёрный ящик. Разбирать файл не нужно,
+        кроме строк, помеченных ВАЖНО.
+
+        Классы Person и Machine лежат там же, в DataContextTree.xaml.cs.
+    -->
+
+    <TabControl>
+
+        <!-- ═══ ЗАДАЧА 1: откуда биндинг берёт источник ════════════════════
+             У панели Root1 DataContext выставлен в код-подложке:
+             Person с именем «Анна». Больше нигде в коде ничего не задаётся.
+
+             Ниже пять строк. Каждая подписана номером. Предскажи, что
+             покажет каждая, и главное — ОТКУДА она взяла источник.
+             Person.ToString() возвращает «Человек: <имя>».
+
+             ПРЕДСКАЗАНИЕ (1):
+             ПРЕДСКАЗАНИЕ (2):
+             ПРЕДСКАЗАНИЕ (3):
+             ПРЕДСКАЗАНИЕ (4):
+             ПРЕДСКАЗАНИЕ (5):
+
+             ПРЕДСКАЗАНИЕ (6) в какой строке уверенность ниже всего? Номером.
+        -->
+        <TabItem Header="1. Откуда источник">
+            <StackPanel x:Name="Root1" Margin="16">
+
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="(1)  " />
+                    <TextBlock Text="{Binding Name}" />
+                </StackPanel>
+
+                <Border BorderBrush="Gray" BorderThickness="1" Padding="8" Margin="0,8">
+                    <Border.DataContext>
+                        <local:Person Name="Борис" />
+                    </Border.DataContext>
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="(2)  " />
+                            <TextBlock Text="{Binding Name}" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="(3)  " />
+                            <TextBlock Text="{Binding}" />
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="(4)  " />
+                    <TextBlock Text="{Binding}" />
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="(5)  " />
+                    <TextBlock Text="{Binding Nmae}" />
+                </StackPanel>
+
+            </StackPanel>
+        </TabItem>
+
+        <!-- ═══ ЗАДАЧА 2 (ПРОВОКАЦИОННАЯ): обнулить или вернуть ════════════
+             Дерево: корень Root2 (DataContext «Анна», ставится в код-подложке)
+             содержит рамку Frame2 со СВОИМ DataContext «Борис», а в рамке
+             строка «внутренний». Рядом с рамкой, прямо в корне, строка «сосед».
+
+             Четыре кнопки делают четыре разные вещи:
+               1. «Заменить у корня»        — корню дают НОВЫЙ Person «Вера»
+               2. «Обнулить у рамки»        — рамке присваивают DataContext = null
+               3. «Вернуть наследование»    — у рамки вызывают ClearValue
+               4. «Переименовать»           — у объекта, который сейчас лежит
+                                               в DataContext корня, меняют Name
+                                               на «Дина». Объект тот же, не новый.
+
+             Жми строго по порядку 1, 2, 3, 4, по одному разу, начиная со
+             свежего запуска или после «Сброс». Внизу окна после каждой
+             кнопки печатается, откуда рамка берёт DataContext.
+
+             Здесь правдоподобный ответ неверен как минимум в двух клетках.
+
+             ПРЕДСКАЗАНИЕ, что покажут строки:
+                                     внутренний        сосед
+                  исходно          :
+                  после 1          :
+                  после 2          :
+                  после 3          :
+                  после 4          :
+
+             ПРЕДСКАЗАНИЕ (6) в какой клетке уверенность ниже всего?
+        -->
+        <TabItem Header="2. Обнулить или вернуть">
+            <DockPanel Margin="16">
+                <WrapPanel DockPanel.Dock="Top" Margin="0,0,0,12">
+                    <Button x:Name="ReplaceRootButton"  Content="1. Заменить у корня"     Margin="0,0,8,8" Padding="8,4" />
+                    <Button x:Name="NullFrameButton"    Content="2. Обнулить у рамки"     Margin="0,0,8,8" Padding="8,4" />
+                    <Button x:Name="ClearFrameButton"   Content="3. Вернуть наследование" Margin="0,0,8,8" Padding="8,4" />
+                    <Button x:Name="RenameButton"       Content="4. Переименовать"        Margin="0,0,8,8" Padding="8,4" />
+                    <Button x:Name="Reset2Button"       Content="Сброс"                   Margin="0,0,8,8" Padding="8,4" />
+                </WrapPanel>
+
+                <TextBlock x:Name="Status2" DockPanel.Dock="Bottom" TextWrapping="Wrap" Foreground="DimGray" Margin="0,12,0,0" />
+
+                <StackPanel x:Name="Root2">
+                    <Border x:Name="Frame2" BorderBrush="Gray" BorderThickness="1" Padding="8" Margin="0,0,0,8">
+                        <Border.DataContext>
+                            <local:Person Name="Борис" />
+                        </Border.DataContext>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="внутренний:  " />
+                            <TextBlock Text="{Binding Name}" FontWeight="Bold" />
+                        </StackPanel>
+                    </Border>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="сосед:  " />
+                        <TextBlock Text="{Binding Name}" FontWeight="Bold" />
+                    </StackPanel>
+                </StackPanel>
+            </DockPanel>
+        </TabItem>
+
+        <!-- ═══ ЗАДАЧА 3: станок и оператор ════════════════════════════════
+             У панели Root3 DataContext — Machine (выставлен в код-подложке):
+               Name     = «Станок-7»
+               Operator = Person «Иванов», смена «дневная»
+
+             Обрати внимание: и у Machine, и у Person есть свойство с
+             ОДИНАКОВЫМ именем Name. Это сделано намеренно.
+
+             Что сделать САМОМУ (разметку пишешь ты, внутри Root3 ниже):
+               • строка с именем станка;
+               • блок «Оператор» в рамке, внутри которого две строки:
+                 имя оператора и его смена.
+                 Условие: внутри блока в биндингах НЕ должно быть слова
+                 Operator. Ни в одном. Путь пишется от оператора, а не
+                 от станка.
+
+             Кнопки:
+               • «Смена кончилась» — корню дают НОВЫЙ Machine с тем же именем,
+                                     но Operator = null
+               • «Новая смена»     — корню дают НОВЫЙ Machine, Operator =
+                                     «Петров», смена «ночная»
+
+             ПРЕДСКАЗАНИЕ (1) что покажет строка с ИМЕНЕМ внутри блока
+                              «Оператор» после «Смена кончилась»: пустоту,
+                              «Станок-7» или что-то упадёт? Почему?
+             ПРЕДСКАЗАНИЕ (2) что покажет строка со СМЕНОЙ там же:
+             ПРЕДСКАЗАНИЕ (3) после «Новая смена» блок обновится или нет? Почему?
+             ПРЕДСКАЗАНИЕ (4) какая из задач 2 устроена на том же механизме,
+                              что (1)? Назови конкретную кнопку.
+        -->
+        <TabItem Header="3. Станок и оператор">
+            <DockPanel Margin="16">
+                <WrapPanel DockPanel.Dock="Top" Margin="0,0,0,12">
+                    <Button x:Name="ShiftEndedButton" Content="Смена кончилась" Margin="0,0,8,8" Padding="8,4" />
+                    <Button x:Name="NewShiftButton"   Content="Новая смена"     Margin="0,0,8,8" Padding="8,4" />
+                </WrapPanel>
+
+                <StackPanel x:Name="Root3">
+
+                    <!-- здесь твоя разметка -->
+
+                </StackPanel>
+            </DockPanel>
+        </TabItem>
+
+    </TabControl>
+</Window>
