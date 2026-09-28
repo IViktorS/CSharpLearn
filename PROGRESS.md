@@ -4,7 +4,7 @@
 
 Правила работы — [RULES.md](RULES.md). Журнал по закрытым темам — [JOURNAL.md](JOURNAL.md).
 
-**Сейчас:** 7.3 DataContext — конспект и задачи выданы. Следом по C# — 1.19 Атрибуты и `partial`.
+**Сейчас:** 1.19 Атрибуты и `partial`, затем контрольная точка 2 и карта Блока 1.
 
 ## Порядок прохождения
 
@@ -138,7 +138,7 @@
 |---|---|---|---|
 | 7.1 Панели компоновки (`Grid`, `StackPanel`, `DockPanel`, `Canvas`) | ✅ | ✅ | `CSharpLearn/Block7/7.1-LayoutPanels/` |
 | 7.2 StaticResource vs DynamicResource | ✅ | ✅ | `CSharpLearn/Block7/7.2-Resources/` |
-| 7.3 DataContext — наследование по дереву | 🟡 | ✅ | `CSharpLearn/Block7/7.3-DataContext/` |
+| 7.3 DataContext — наследование по дереву | ✅ | ✅ | `CSharpLearn/Block7/7.3-DataContext/` |
 | 7.4 Data Binding — режимы, триггеры | ⬜ | ✅ сейчас (без «почему не обновилось») | |
 | ⛔ **Стоп-линия WPF-трека.** Ниже — только после 2.2 и Блока 3 | | | |
 | 7.5 Routed Events — Bubbling vs Tunneling | ⬜ | ждёт 3.4 | |
