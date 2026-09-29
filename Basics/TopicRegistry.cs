@@ -30,5 +30,6 @@ public static class TopicRegistry
         ("1.16", "Методы расширения", ExtensionMethods.Run),
         ("1.17", "Дженерики: обобщённые классы и методы", Generics.Run),
         ("1.18", "Ограничения дженериков (where T : ...)", GenericConstraints.Run),
+        ("1.19", "Атрибуты и partial", Basics.Block1.Attributes.Run),
     ];
 }
