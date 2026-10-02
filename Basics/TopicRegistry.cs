@@ -32,5 +32,6 @@ public static class TopicRegistry
         ("1.17", "Дженерики: обобщённые классы и методы", Generics.Run),
         ("1.18", "Ограничения дженериков (where T : ...)", GenericConstraints.Run),
         ("1.19", "Атрибуты и partial", Basics.Block1.Attributes.Run),
+        ("Q1", "🔁 Разбор очереди повторения №1", QueueReview1.Run)
     ];
 }
