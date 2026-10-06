@@ -11,6 +11,7 @@ public static class TopicRegistry
         // Контрольные точки — смешанные задачи на стык тем
         ("R1", "🔁 Контрольная точка 1 (темы 1.1–1.13)", Checkpoint1.Run),
         ("Q1", "🔁 Разбор очереди повторения №1", QueueReview1.Run),
+        ("R2", "🔁 Контрольная точка 2 (темы 1.14–1.20)", Checkpoint2.Run),
 
         // Блок 1: Основы C#
         ("1.1", "Value types vs reference types", ValueVsReference.Run),
