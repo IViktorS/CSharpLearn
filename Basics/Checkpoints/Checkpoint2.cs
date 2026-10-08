@@ -157,8 +157,19 @@ public static class Checkpoint2
     //   • свойство Installed — это состояние ТИПА, а не конкретного насоса;
     //   • иногда нужно скрыть отдельное свойство целиком.
     //
-    // Напиши РЯДОМ (Dump не трогай — его вывод остаётся эталоном) метод
-    // расширения DumpClean, который:
+    // Обрати внимание на устройство исходного кода: Dump и DumpObject —
+    // ВЗАИМНО РЕКУРСИВНАЯ пара. Dump разбирает значение по типу и для
+    // объекта зовёт DumpObject; DumpObject перебирает свойства и для
+    // каждого значения зовёт обратно Dump. Перебор свойств — только
+    // в DumpObject.
+    //
+    // Отсюда вопрос, который решаешь ты: НА КАКУЮ ГЛУБИНУ должна
+    // действовать очистка — только верхний уровень или вся вложенность?
+    // От ответа зависит, что именно придётся написать рядом. Проверяется
+    // на Backup. Запиши решение и причину в комментарии.
+    //
+    // Напиши РЯДОМ (Dump и DumpObject не трогай — их вывод остаётся
+    // эталоном) метод расширения DumpClean, который:
     //   • не печатает статические свойства;
     //   • пропускает свойства, помеченные новым атрибутом [Hide]
     //     (атрибут объяви сам);
@@ -166,15 +177,15 @@ public static class Checkpoint2
     //
     // Пометь [Hide] свойство Hours у Pump и выведи new Pump().DumpClean().
     //
-    // ПРЕДСКАЗАНИЕ (1) какой одной правкой убираются статические свойства:
-    // ПРЕДСКАЗАНИЕ (2) что выведет new Pump().DumpClean():
-    // ПРЕДСКАЗАНИЕ (3) изменится ли от пометки [Hide] вывод старого Dump? Почему?
+    // ПРЕДСКАЗАНИЕ (1) какой одной правкой убираются статические свойства: if (p.GetMethod?.IsStatic == true)
+    // ПРЕДСКАЗАНИЕ (2) что выведет new Pump().DumpClean(): Pump { Name = насос-1, Pressure = 4 бар, Backup = null }
+    // ПРЕДСКАЗАНИЕ (3) изменится ли от пометки [Hide] вывод старого Dump? Почему? Не изменится. 1. Там не проверяется наличие атрибута Hide. 2. Атрибут никак не влияет на работу Dump, пока с ним не производят каких-либо действий.
     //
     private static void Task3()
     {
         Console.WriteLine("--- Задача 3 ---");
 
-        // твой код
+        Console.WriteLine($"(2) {new Pump().DumpClean()}");
     }
 }
 
@@ -191,6 +202,20 @@ public class SuffixAttribute : Attribute
     public SuffixAttribute(string symbol) => Symbol = symbol;
 }
 
+/// <summary>
+/// Атрибут, который говорит DumpClean, что свойство нужно скрыть.
+/// </summary>
+/// <remarks>
+/// Создаёт атрибут с указанием, скрывать ли свойство.
+/// </remarks>
+/// <param name="isHidden"></param>
+[AttributeUsage(AttributeTargets.Property)]
+public class HideAttribute(bool isHidden) : Attribute
+{
+    /// <summary>Указывает, что свойство нужно скрыть.</summary>
+    public bool IsHidden { get; } = isHidden;
+}
+
 /// <summary>Насос.</summary>
 public class Pump
 {
@@ -203,6 +228,7 @@ public class Pump
 
     /// <summary>Наработка — long.</summary>
     [Suffix("ч")]
+    [Hide(true)]
     public long Hours { get; set; } = 1200;
 
     /// <summary>Резервный насос.</summary>
@@ -249,6 +275,56 @@ public static class DumpExtensions
             string? suffix = p.GetCustomAttribute<SuffixAttribute>()?.Symbol;
 
             sb.Append(p.Name).Append(" = ").Append(value.Dump(depth + 1));
+            if (suffix is not null) sb.Append(' ').Append(suffix);
+        }
+
+        return sb.Append(" }").ToString();
+    }
+
+    /// <summary>
+    /// Печатает значение, как Dump, но пропускает статические свойства и свойства с атрибутом [Hide].
+    /// Очистка действует на всю вложенность, чтобы не печатать лишние свойства в резервных насосах.
+    /// </summary>
+    /// <param name="obj"></param>
+    /// <param name="depth"></param>
+    /// <returns></returns>
+    public static string DumpClean(this object? obj, int depth = 0) => obj switch
+    {
+        null => "null",
+        string s => $"\"{s}\"",
+        int n => $"{n}",
+        long n => $"{n}L",
+        _ when depth >= 2 => "…",
+        _ => DumpObjectClean(obj, depth),
+    };
+
+    /// <summary>
+    /// Печатает объект в виде «Тип { Свойство = значение, ... }», пропуская статические свойства и свойства с атрибутом [Hide].
+    /// </summary>
+    /// <param name="obj"></param>
+    /// <param name="depth"></param>
+    /// <returns></returns>
+    private static string DumpObjectClean(object obj, int depth)
+    {
+        var sb = new StringBuilder();
+        sb.Append(obj.GetType().Name).Append(" { ");
+
+        bool first = true;
+        foreach (var p in obj.GetType().GetProperties())
+        {
+            if (p.GetMethod?.IsStatic == true)
+                continue;
+
+            if (p.GetCustomAttribute<HideAttribute>()?.IsHidden == true)
+                continue; 
+
+            if (!first) sb.Append(", ");
+            first = false;
+
+            object? value = p.GetValue(obj);
+            string? suffix = p.GetCustomAttribute<SuffixAttribute>()?.Symbol;
+
+            sb.Append(p.Name).Append(" = ").Append(value.DumpClean(depth + 1));
             if (suffix is not null) sb.Append(' ').Append(suffix);
         }
 
