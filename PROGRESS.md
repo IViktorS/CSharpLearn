@@ -4,7 +4,7 @@
 
 Правила работы — [RULES.md](RULES.md). Журнал по закрытым темам — [JOURNAL.md](JOURNAL.md).
 
-**Сейчас:** очередь опустилась до трёх активных строк — Блок 2 открыт. По соотношению 2:1 сначала WPF: 7.4 Data Binding (после 7.3 закрыты две темы C# — 1.19 и 1.20), затем 2.1.
+**Сейчас:** 7.4 Data Binding — конспект и задачи выданы. Следом — 2.1 (начало Блока 2).
 
 ## Порядок прохождения
 
@@ -167,7 +167,7 @@
 | 7.1 Панели компоновки (`Grid`, `StackPanel`, `DockPanel`, `Canvas`) | ✅ | ✅ | `CSharpLearn/Block7/7.1-LayoutPanels/` |
 | 7.2 StaticResource vs DynamicResource | ✅ | ✅ | `CSharpLearn/Block7/7.2-Resources/` |
 | 7.3 DataContext — наследование по дереву | ✅ | ✅ | `CSharpLearn/Block7/7.3-DataContext/` |
-| 7.4 Data Binding — режимы, триггеры | ⬜ | ✅ сейчас (без «почему не обновилось») | |
+| 7.4 Data Binding — режимы, триггеры | 🟡 | ✅ | `CSharpLearn/Block7/7.4-DataBinding/` |
 | ⛔ **Стоп-линия WPF-трека.** Ниже — только после 2.2 и Блока 3 | | | |
 | 7.5 Routed Events — Bubbling vs Tunneling | ⬜ | ждёт 3.4 | |
 | 7.6 INotifyPropertyChanged | ⬜ | ждёт 2.2 + 3.4 | |

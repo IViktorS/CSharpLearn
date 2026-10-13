@@ -1,0 +1,197 @@
+<Window x:Class="CSharpLearn.Block7.BindingModes"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="7.4 Биндинг" Height="600" Width="760">
+
+    <!--
+        ТЕМА 7.4 — Data Binding: режимы и триггеры
+
+        Правила прежние: сначала впиши ПРЕДСКАЗАНИЕ, потом запускай.
+        Запуск: dotnet run, проект CSharpLearn, аргумент 7.4
+        (точная команда есть в EXPLANATION.md)
+
+        Задача 1 — написать биндинги самому, задачи 2 и 3 — предсказания.
+
+        Кнопки в задачах 2 и 3 подключены в BindingModes.xaml.cs.
+        Механизм событий — Блок 3; считай, что нажатие кнопки просто
+        вызывает одноимённый метод. Чёрный ящик.
+    -->
+
+    <TabControl>
+
+        <!-- ═══ ЗАДАЧА 1: откуда ещё может взяться источник ═════════════════
+             Ниже ползунок Volume и три TextBlock с пустым текстом.
+             Замени Text="" в каждом на биндинг:
+
+               (а) SliderValue — значение ползунка Volume;
+               (б) OwnWidth    — фактическая ширина этого же TextBlock
+                                 (свойство ActualWidth);
+               (в) WindowTitle — заголовок окна (свойство Title у Window).
+
+             Ни строчки кода в .xaml.cs для этого не нужно. DataContext
+             здесь не задан вообще: источник каждый раз указывается в
+             самом биндинге.
+
+             ПРЕДСКАЗАНИЕ (1) двигаешь ползунок — меняется ли (а)? Почему,
+                              если никакого кода нет:
+             ПРЕДСКАЗАНИЕ (2) растягиваешь окно по ширине — меняется ли (б)?
+             ПРЕДСКАЗАНИЕ (3) в разметке у окна Title="7.4 Биндинг". А раннер
+                              ПОСЛЕ создания окна ставит ему другой заголовок
+                              (видно в рамке окна при запуске). Что покажет (в)
+                              и почему?
+        -->
+        <TabItem Header="1. Откуда источник">
+            <StackPanel Margin="16">
+                <Slider x:Name="Volume" Minimum="0" Maximum="100" Value="25" Margin="0,0,0,12" />
+
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="(а) ползунок:  " />
+                    <TextBlock x:Name="SliderValue" Text="" FontWeight="Bold" />
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Margin="0,4,0,0">
+                    <TextBlock Text="(б) моя ширина:  " />
+                </StackPanel>
+                <TextBlock x:Name="OwnWidth" Text="" FontWeight="Bold" Background="#FFF3E6" />
+
+                <StackPanel Orientation="Horizontal" Margin="0,4,0,0">
+                    <TextBlock Text="(в) заголовок окна:  " />
+                    <TextBlock x:Name="WindowTitle" Text="" FontWeight="Bold" />
+                </StackPanel>
+            </StackPanel>
+        </TabItem>
+
+        <!-- ═══ ЗАДАЧА 2 (ПРОВОКАЦИОННАЯ): четыре режима ════════════════════
+             Ползунок Level стартует с 10. Четыре поля связаны с ним
+             ОДИНАКОВО, кроме режима. Триггер у всех — PropertyChanged,
+             то есть ждать потери фокуса не нужно.
+
+             Шаги — строго по порядку:
+               шаг 0 — окно только открыли;
+               шаг 1 — кнопка «Ползунок → 20»;
+               шаг 2 — в поле TwoWay стёрли текст и набрали 30;
+               шаг 3 — кнопка «Сброс», затем в поле OneWayToSource набрали 60.
+
+             Внизу после каждой кнопки печатается значение ползунка.
+             Правдоподобный ответ неверен минимум в трёх клетках.
+
+             ПРЕДСКАЗАНИЕ — что в каждом поле и где ползунок:
+                        OneWay   TwoWay   OneTime   OneWayToSource   ползунок
+               шаг 0 :
+               шаг 1 :
+               шаг 2 :
+               шаг 3 :
+
+             ПРЕДСКАЗАНИЕ (5) в какой клетке уверенность ниже всего?
+        -->
+        <TabItem Header="2. Четыре режима">
+            <DockPanel Margin="16">
+                <WrapPanel DockPanel.Dock="Top" Margin="0,0,0,12">
+                    <Button x:Name="LevelTo20Button" Content="Ползунок → 20" Margin="0,0,8,8" Padding="8,4" />
+                    <Button x:Name="Reset2Button"    Content="Сброс"         Margin="0,0,8,8" Padding="8,4" />
+                </WrapPanel>
+
+                <TextBlock x:Name="Status2" DockPanel.Dock="Bottom" Foreground="DimGray" Margin="0,12,0,0" />
+
+                <StackPanel>
+                    <Slider x:Name="Level" Minimum="0" Maximum="100" Value="10" Margin="0,0,0,12" />
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="140" />
+                            <ColumnDefinition Width="160" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition /><RowDefinition /><RowDefinition /><RowDefinition />
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="0" Text="OneWay" VerticalAlignment="Center" />
+                        <TextBox   Grid.Row="0" Grid.Column="1" x:Name="OneWayBox" Margin="0,2"
+                                   Text="{Binding Value, ElementName=Level, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
+
+                        <TextBlock Grid.Row="1" Text="TwoWay" VerticalAlignment="Center" />
+                        <TextBox   Grid.Row="1" Grid.Column="1" x:Name="TwoWayBox" Margin="0,2"
+                                   Text="{Binding Value, ElementName=Level, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+                        <TextBlock Grid.Row="2" Text="OneTime" VerticalAlignment="Center" />
+                        <TextBox   Grid.Row="2" Grid.Column="1" x:Name="OneTimeBox" Margin="0,2"
+                                   Text="{Binding Value, ElementName=Level, Mode=OneTime, UpdateSourceTrigger=PropertyChanged}" />
+
+                        <TextBlock Grid.Row="3" Text="OneWayToSource" VerticalAlignment="Center" />
+                        <TextBox   Grid.Row="3" Grid.Column="1" x:Name="ToSourceBox" Margin="0,2"
+                                   Text="{Binding Value, ElementName=Level, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" />
+                    </Grid>
+                </StackPanel>
+            </DockPanel>
+        </TabItem>
+
+        <!-- ═══ ЗАДАЧА 3: когда значение уходит в объект ════════════════════
+             DataContext этой вкладки — обычный объект Employee
+             (Name = «Анна», Age = 30), выставлен в код-подложке. Сообщать
+             об изменениях он НЕ умеет (как Person в 7.3).
+
+             Два поля связаны с ОДНИМ И ТЕМ ЖЕ свойством Name:
+               поле 1 — триггер по умолчанию;
+               поле 2 — UpdateSourceTrigger=PropertyChanged.
+             Третье поле — Age (int), тоже PropertyChanged.
+
+             Обе кнопки НЕ забирают фокус при нажатии — как кнопки на панели
+             инструментов. «Показать объект» печатает внизу, что реально
+             лежит в объекте.
+
+             Шаги — по порядку, ничего лишнего между ними не нажимать:
+               (1) в поле 1 стёрли текст, набрали «Борис» и, НЕ уходя из поля,
+                   нажали «Показать объект»;
+               (2) нажали Tab (фокус ушёл из поля 1), снова «Показать объект»;
+               (3) в поле 2 стёрли текст и набрали «Глеб», «Показать объект»;
+               (4) в поле возраста стёрли текст и набрали «abc», «Показать объект»;
+               (5) нажали «Переименовать в коде» (в коде: employee.Name = "Вера"),
+                   затем «Показать объект».
+
+             ПРЕДСКАЗАНИЕ — после каждого шага: что в объекте (Name, Age)
+                            и что видно в поле 1 и в поле 2:
+               (1) :
+               (2) :
+               (3) :
+               (4) :   (и что видно вокруг поля возраста? будет ли исключение?)
+               (5) :
+
+             ПРЕДСКАЗАНИЕ (6) одной фразой: в каких направлениях значение
+                              доходит до экрана и до объекта, а в каком нет?
+             ПРЕДСКАЗАНИЕ (7) в каком шаге уверенность ниже всего?
+        -->
+        <TabItem Header="3. Когда уходит в объект">
+            <DockPanel Margin="16" x:Name="Root3">
+                <WrapPanel DockPanel.Dock="Top" Margin="0,0,0,12">
+                    <Button x:Name="ShowButton"   Content="Показать объект"      Focusable="False" Margin="0,0,8,8" Padding="8,4" />
+                    <Button x:Name="RenameButton" Content="Переименовать в коде" Focusable="False" Margin="0,0,8,8" Padding="8,4" />
+                </WrapPanel>
+
+                <TextBlock x:Name="Status3" DockPanel.Dock="Bottom" Foreground="DimGray" Margin="0,12,0,0" />
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="200" />
+                        <ColumnDefinition Width="200" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition /><RowDefinition /><RowDefinition />
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0" Text="поле 1 (по умолчанию)" VerticalAlignment="Center" />
+                    <TextBox   Grid.Row="0" Grid.Column="1" x:Name="NameDefault" Margin="0,2"
+                               Text="{Binding Name}" />
+
+                    <TextBlock Grid.Row="1" Text="поле 2 (PropertyChanged)" VerticalAlignment="Center" />
+                    <TextBox   Grid.Row="1" Grid.Column="1" x:Name="NameInstant" Margin="0,2"
+                               Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" />
+
+                    <TextBlock Grid.Row="2" Text="возраст (PropertyChanged)" VerticalAlignment="Center" />
+                    <TextBox   Grid.Row="2" Grid.Column="1" x:Name="AgeBox" Margin="0,2"
+                               Text="{Binding Age, UpdateSourceTrigger=PropertyChanged}" />
+                </Grid>
+            </DockPanel>
+        </TabItem>
+
+    </TabControl>
+</Window>

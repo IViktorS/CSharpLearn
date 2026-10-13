@@ -14,5 +14,6 @@ public static class TopicWindows
         ("7.1", "Панели компоновки (Grid, StackPanel, DockPanel, Canvas)", () => new LayoutPanels()),
         ("7.2", "StaticResource vs DynamicResource", () => new Block7.Resources()),
         ("7.3", "DataContext — наследование по дереву", () => new DataContextTree()),
+        ("7.4", "Data Binding — режимы и триггеры", () => new BindingModes()),
     ];
 }
