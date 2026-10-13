@@ -35,6 +35,8 @@ public static class TopicRegistry
         ("1.18", "Ограничения дженериков (where T : ...)", GenericConstraints.Run),
         ("1.19", "Атрибуты и partial", Basics.Block1.Attributes.Run),
         ("1.20", "Рефлексия", ReflectionBasics.Run),
-        ("R2", "🔁 Контрольная точка 2 (темы 1.14–1.20)", Checkpoint2.Run),
+        // Последняя строка — то, что запускается БЕЗ аргумента (dotnet run --project Basics).
+        // Повтор записи намеренный: сюда ставится текущая работа. Не дубль, не удалять.
+        ("Q2", "🔁 Разбор очереди повторения №2", QueueReview2.Run),
     ];
 }
