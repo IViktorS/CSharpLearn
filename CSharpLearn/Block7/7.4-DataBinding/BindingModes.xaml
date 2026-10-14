@@ -33,12 +33,12 @@
              самом биндинге.
 
              ПРЕДСКАЗАНИЕ (1) двигаешь ползунок — меняется ли (а)? Почему,
-                              если никакого кода нет:
-             ПРЕДСКАЗАНИЕ (2) растягиваешь окно по ширине — меняется ли (б)?
+                              если никакого кода нет: Потому что мы привязались к свойству слайдера Value, у которого по умолчанию двусторонняя связь, что позволяет обновлять значение в TextBlock при изменении ползунка.
+             ПРЕДСКАЗАНИЕ (2) растягиваешь окно по ширине — меняется ли (б)? Да, так как у TextBlock свойство ActualWidth OnWay по умолчанию, соответственно при изменении размера, обновится и наша цель.
              ПРЕДСКАЗАНИЕ (3) в разметке у окна Title="7.4 Биндинг". А раннер
                               ПОСЛЕ создания окна ставит ему другой заголовок
                               (видно в рамке окна при запуске). Что покажет (в)
-                              и почему?
+                              и почему? Покажет измененный заголовок окна, так изменилось свойство Title, а мы прявязались к нему и тут сработает обновление.
         -->
         <TabItem Header="1. Откуда источник">
             <StackPanel Margin="16">
@@ -46,17 +46,17 @@
 
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="(а) ползунок:  " />
-                    <TextBlock x:Name="SliderValue" Text="" FontWeight="Bold" />
+                    <TextBlock x:Name="SliderValue" Text="{Binding Value, ElementName=Volume}" FontWeight="Bold" />
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal" Margin="0,4,0,0">
-                    <TextBlock Text="(б) моя ширина:  " />
+                <TextBlock Text="(б) моя ширина:  " />
                 </StackPanel>
-                <TextBlock x:Name="OwnWidth" Text="" FontWeight="Bold" Background="#FFF3E6" />
+                <TextBlock x:Name="OwnWidth" Text="{Binding ActualWidth, ElementName=OwnWidth}" FontWeight="Bold" Background="#FFF3E6" />
 
                 <StackPanel Orientation="Horizontal" Margin="0,4,0,0">
                     <TextBlock Text="(в) заголовок окна:  " />
-                    <TextBlock x:Name="WindowTitle" Text="" FontWeight="Bold" />
+          <TextBlock x:Name="WindowTitle" Text="{Binding Title, RelativeSource={RelativeSource AncestorType=Window}}" FontWeight="Bold" />
                 </StackPanel>
             </StackPanel>
         </TabItem>
@@ -77,12 +77,12 @@
 
              ПРЕДСКАЗАНИЕ — что в каждом поле и где ползунок:
                         OneWay   TwoWay   OneTime   OneWayToSource   ползунок
-               шаг 0 :
-               шаг 1 :
-               шаг 2 :
-               шаг 3 :
+               шаг 0 : OneWay 10   TwoWay 10   OneTime 10   OneWayToSource пусто   ползунок 10
+               шаг 1 : OneWay 20  TwoWay 20  OneTime 10  OneWayToSource пусто  ползунок  20
+               шаг 2 : OneWay 30  TwoWay 30  OneTime 10  OneWayToSource пусто  ползунок 30
+               шаг 3 : OneWay 30  TwoWay 30  OneTime 10  OneWayToSource 30  ползунок 30
 
-             ПРЕДСКАЗАНИЕ (5) в какой клетке уверенность ниже всего?
+             ПРЕДСКАЗАНИЕ (5) в какой клетке уверенность ниже всего? 3
         -->
         <TabItem Header="2. Четыре режима">
             <DockPanel Margin="16">
