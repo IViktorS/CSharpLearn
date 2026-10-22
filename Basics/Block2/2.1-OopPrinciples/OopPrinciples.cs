@@ -64,19 +64,34 @@ public static class OopPrinciples
     //
     // Две-три — не квота. Было две настоящих развилки — значит две.
     //
-    //   РАЗВИЛКА 1:
-    //     выбрал —
-    //     отверг —
-    //     почему —
+    //   РАЗВИЛКА 1:Сперва я решил определиться с чего вообще начать.
+    //     выбрал — Написать только классы устройств и базовый класс для них без обработки текущих показателей.
+    //     отверг — Сразу написать код пультовой и обработку показателей.
+    //     почему — Не стал распыляться, нужно было посмотреть как все будет устроено в минимальном виде, что бы лучше сложилось понимание в голове для дальнейшей реализации.
     //
-    //   РАЗВИЛКА 2:
-    //     выбрал —
-    //     отверг —
-    //     почему —
+    //   РАЗВИЛКА 2:Тут я стал определяться, как быть с показателями устройств.
+    //     выбрал — Параметр будет в виде свойства свой у каждого устройства и в базовом классе его не будет, а для насоса будет проверка в сеттере
+    //     отверг — Сперва была мысль сделать свойство в базовом классе и наследовать.
+    //     почему — Решил, что название свойства должно быть разным, как минимум, для удобного восприятия.
     //
-    //   РАЗВИЛКА 3 (если была):
-    //     выбрал —
-    //     отверг —
+    //   РАЗВИЛКА 3 (если была): Не очень понравился вариант для записи давления через сеттер.
+    //     выбрал — приватные поля под параметры и запись через метод в каждом классе, который есть и в базовом классе.
+    //     отверг — Запись через сеттер с проверкой только для насоса.
+    //     почему — Решил, что так будет универсальней, если клиент в будущем захочет добавить еще проверки.
+    //
+    //   РАЗВИЛКА 4 Тут я понял, что типы у параметров разные.
+    //     выбрал — Что бы не переусложнять вернулся к проверке давления в сеттере.
+    //     отверг — Предыдущий вариант.
+    //     почему — Так как типы параметров разыне, а вводить дженерики было не рационально тут.
+    //
+    //   РАЗВИЛКА 5 Опредялелся, как реализовывать пультовую 
+    //     выбрал — Дженерик для коллекции устройств и вызывать метод буду через выбор в switch
+    //     отверг — Не использовать коллецию, а просто вызвать несколько раз метод, который будет выводить статистику по каждому устройству.
+    //     почему — Решил, что так будет универсальнее. Мне не очень нравится, но пока лучше не придумал за жто время.
+    //
+    //   РАЗВИЛКА 6 
+    //     выбрал — 
+    //     отверг — 
     //     почему —
     //
     // Когда закончишь — скажи «готово». Разбор пойдёт по развилкам, и
@@ -84,10 +99,98 @@ public static class OopPrinciples
     // изменится вот так». Изменения у меня заготовлены заранее,
     // подсматривать в них нечего.
     //
+
     private static void Task1()
     {
         Console.WriteLine("--- 2.1: журнал смены ---");
 
-        // твой код здесь
+        var controlRoom = new ControlRoom();
+       
+        var pump = new Pump("Насос 1")
+        {
+            Pressue = -1
+        };
+        controlRoom.DeviceList?.Add(pump);
+
+        var gate = new GateValve("Задвижка 1")
+        {
+            Gate = true
+        };
+        controlRoom.DeviceList?.Add(gate);
+
+        var temperatureSensor = new TemperatureSensor("Датчик температуры 1")
+        {
+            Temperature = 50
+        };     
+        controlRoom.DeviceList?.Add(temperatureSensor);
+
+        controlRoom.Str();
+    }
+
+    public class ControlRoom
+    {
+        public List<Device>? DeviceList { get; set; } = [];
+
+        public void Str()
+        {
+            if (DeviceList == null)
+            {
+                Console.WriteLine("Список устройств пуст");
+                return;
+            }
+
+            foreach (var item in DeviceList)
+            {
+                Console.WriteLine(item.GetDescription());
+            }
+        }
+    }
+
+    public class Device
+    {
+        public string Name { get; }
+
+        public Device(string name) => Name = name;
+
+        public virtual string GetDescription() => $"Устройство {Name}";
+    }
+
+    public class Pump(string name) : Device(name)
+    {
+        private double _pressue;
+        public double Pressue
+        {
+            get => _pressue;
+            set =>_pressue = value < 0 ? _pressue : value;
+        }
+        private string _unitsOfMeasurement = "Бар";
+
+        public override string GetDescription() => base.GetDescription() + $", давление {Pressue} {_unitsOfMeasurement}";
+    }
+
+    public class GateValve : Device
+    {
+        public bool Gate { get; set; }
+
+        public GateValve(string name) : base(name) { }
+
+        private string StateGate => Gate ? "Открыта" : "Закрыта";
+
+        public override string GetDescription() => base.GetDescription() + $", задвижка {StateGate} ";
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="name"></param>
+    public class TemperatureSensor(string name) : Device(name)
+    {
+        private string _unitsOfMeasurement = "С";
+
+        public int Temperature { get; set; }
+
+        public override string GetDescription() => base.GetDescription() + $", температура {Temperature} {_unitsOfMeasurement}";
     }
 }
+
+//a.1.1 - на примере класса есть ссылочные типы, например  б. 1.18 — нужно было ограничение where T : Device
