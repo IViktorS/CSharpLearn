@@ -4,7 +4,7 @@ namespace Basics.Block1;
 
 // ТЕМА 1.18 — Ограничения дженериков (where T : ...)
 //
-// Конспект: EXPLANATION.md в этой же папке.
+// Конспект: 1.18-GenericConstraints.md в этой же папке.
 // Запуск:   dotnet run --project Basics -- 1.18
 //
 // Все три задачи — предсказания. Отдельного шага с вопросами нет:

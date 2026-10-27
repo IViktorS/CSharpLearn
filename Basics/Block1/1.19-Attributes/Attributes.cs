@@ -4,7 +4,7 @@ namespace Basics.Block1;
 
 // ТЕМА 1.19 — Атрибуты и partial
 //
-// Конспект: EXPLANATION.md в этой же папке.
+// Конспект: 1.19-Attributes.md в этой же папке.
 // Запуск:   dotnet run --project Basics -- 1.19
 //
 // Все три задачи — предсказания. Сразу знаешь ответ — скажи, заменю.
