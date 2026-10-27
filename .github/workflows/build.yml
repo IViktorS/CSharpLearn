@@ -14,7 +14,7 @@ jobs:
       - uses: actions/setup-dotnet@v6
         with:
           dotnet-version: 10.0.x
-      - run: CSharpLearn> dotnet build CSharpLearn.sln -c Release
+      - run: dotnet build CSharpLearn.slnx -c Release
       - uses: actions/upload-artifact@v7
         with:
           name: csharplearn-wpf    
