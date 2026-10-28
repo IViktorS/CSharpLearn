@@ -22,7 +22,7 @@ if (key == "list")
         Console.WriteLine($"  {id,-6} {title}");
     return;
 }
-
+в
 var topic = topics.FirstOrDefault(t => t.Id == key);
 if (topic.Run is null)
 {
