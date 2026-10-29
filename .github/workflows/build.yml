@@ -1,48 +1,22 @@
-# name: Build
-
-# on:
-#   push:
-#     branches: [master]
-#   pull_request:
-#     branches: [master]
-     
-# jobs:
-#   build:
-#     runs-on: windows-latest
-#     steps:
-#       - uses: actions/checkout@v7
-#       - uses: actions/setup-dotnet@v6
-#         with:
-#           dotnet-version: 10.0.x
-#       - run: dotnet build CSharpLearn.slnx -c Release
-#       - uses: actions/upload-artifact@v7
-#         with:
-#           name: csharplearn-wpf    
-#           path: CSharpLearn/bin/Release/net10.0-windows/
-
-name: build
+name: Build
 
 on:
   push:
-    branches: [ main ]
+    branches: [master]
   pull_request:
-    branches: [ main ]
-
+    branches: [master]
+     
 jobs:
   build:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v7
-
       - uses: actions/setup-dotnet@v6
         with:
-          dotnet-version: '10.0.x'
-
-      - name: Build
-        run: dotnet build Basics/Basics.csproj -c Release
-        continue-on-error: true
-
+          dotnet-version: 10.0.x
+      - run: dotnet build CSharpLearn.slnx -c Release
       - uses: actions/upload-artifact@v7
         with:
-          name: csharplearn-wpf
+          name: csharplearn-wpf    
           path: CSharpLearn/bin/Release/net10.0-windows/
+          if-no-files-found: error
